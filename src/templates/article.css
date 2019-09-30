@@ -1,0 +1,10 @@
+figure h3 {
+  font-size: 1em;
+  margin-top: 1em;
+}
+
+figure {
+  border-top: 1px solid #007acc;
+  border-bottom: 1px solid #007acc;
+
+}

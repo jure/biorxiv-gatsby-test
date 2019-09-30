@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  rxdb:
+    build: .
+    environment:
+    - POSTGRES_PASSWORD=
+    links:
+    - pgadmin
+    ports:
+      - 5432:5432
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+    - PGADMIN_DEFAULT_EMAIL=postgres
+    - PGADMIN_DEFAULT_PASSWORD=postgres
+    ports:
+      - "127.0.0.1:8080:80"
+  elasticsearch:
+    image: elasticsearch:7.3.2
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - discovery.type=single-node
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+      - http.cors.allow-headers=X-Requested-With,X-Auth-Token,x-search-state,x-search-query,Content-Type,Content-Length,Authorization
+      - http.cors.allow-credentials=true
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+  dejavu:
+    image: appbaseio/dejavu
+    ports:
+      - 1358:1358
+    links:
+      - elasticsearch
+volumes:
+  esdata:
+    driver: local
